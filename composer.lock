@@ -1,0 +1,104 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d41b4334ec07e41d9fe0b3147235f5ac",
+    "packages": [
+        {
+            "name": "borisuu/laravel-telnet",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/borisuu/laravel-telnet.git",
+                "reference": "928cefb8c0973afae54633c97986ab5b5d21447e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/borisuu/laravel-telnet/zipball/928cefb8c0973afae54633c97986ab5b5d21447e",
+                "reference": "928cefb8c0973afae54633c97986ab5b5d21447e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Borisuu\\Telnet\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Boris Rizov",
+                    "email": "boris.risov@gmail.com"
+                }
+            ],
+            "description": "A client for writing/reading commands to a host over telnet.",
+            "support": {
+                "source": "https://github.com/borisuu/laravel-telnet/tree/master"
+            },
+            "time": "2020-10-16T22:24:20+00:00"
+        },
+        {
+            "name": "yidas/brute-force-attacker",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yidas/brute-force-attacker-php.git",
+                "reference": "109c21b8300e3ba23c328f912cd5ba5e8f386b0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yidas/brute-force-attacker-php/zipball/109c21b8300e3ba23c328f912cd5ba5e8f386b0f",
+                "reference": "109c21b8300e3ba23c328f912cd5ba5e8f386b0f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "yidas\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Brute-force attack tool for generating all possible string and executing function",
+            "homepage": "https://github.com/yidas/brute-force-attacker-php",
+            "keywords": [
+                "brute force attack",
+                "cryptanalytic",
+                "php",
+                "tool"
+            ],
+            "support": {
+                "issues": "https://github.com/yidas/brute-force-attacker-php/issues",
+                "source": "https://github.com/yidas/brute-force-attacker-php"
+            },
+            "time": "2022-12-28T09:29:21+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "borisuu/laravel-telnet": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}

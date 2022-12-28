@@ -1,0 +1,31 @@
+{
+    "name": "ycoya/laravel-telnet-brute-force",
+    "description": "A package to brute force a telnet connection",
+    "keywords": ["brute force attack", "php", "laravel", "telnet"],
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "borisuu/laravel-telnet": "dev-master",
+        "yidas/brute-force-attacker": "^2.0.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ycoya\\LaravelTelnetBruteForce\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ycoya\\LaravelTelnetBruteForce\\Providers\\TelnetBruteForceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Yunior Coya",
+            "email": "yu.coya@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
