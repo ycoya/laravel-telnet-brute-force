@@ -1,7 +1,7 @@
 
 # Laravel Telnet Brute Force
 
-Recoverying password from telnet service by using
+Recovering password from telnet service by using
 brute force.
 
 This was made to meet my own needs, it is not expected
