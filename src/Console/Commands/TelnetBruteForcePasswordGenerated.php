@@ -75,6 +75,11 @@ class TelnetBruteForcePasswordGenerated extends Command
         $minLengthPassword = $this->option('min');
         $maxLengthPassword = $this->option('max');
 
+        if($minLengthPassword > $maxLengthPassword) {
+            $this->error("Option --min=$minLengthPassword could not be greater than --max=$maxLengthPassword");
+            return Command::FAILURE;
+        }
+
         if(!$this->option('socket_timeout')) {
             $this->error("You must enter a positive float number or integer");
             return Command::FAILURE;
@@ -103,6 +108,15 @@ class TelnetBruteForcePasswordGenerated extends Command
             $charRecorded = null;
             $this->count = 1;
         }
+
+        if(!is_null($charRecorded)) {
+            $this->info("Found progress saved for password generation using: $charRecorded.");
+        }
+
+        if($this->count != 1) {
+            $this->info("Found progress saved for password count using: $this->count.");
+        }
+
         BruteForceAttacker::startFrom($charRecorded);
         for ($i = $charRecorded ? strlen($charRecorded): $minLengthPassword ; $i <= $maxLengthPassword ;$i++) {
             BruteForceAttacker::run([
