@@ -83,7 +83,7 @@ storage/app folder. There are three options then:
 The files should have the structure of one string by line.
 Example:
 
-In user.txt, we could have.
+In `users.txt`, we could have.
 
 root
 
@@ -93,6 +93,20 @@ juan
 
 ...
 
+In `passwords.txt`, we could have.
+
+admin
+
+password
+
+1234
+
+...
+
+This command saves the index of current user and password from users
+and password list used.
+If the command is interrupted or we stop it for any reason we could
+resume from where we left of automatically.
 
 ## `Brute Force With Password Generation`
 ```
@@ -125,7 +139,7 @@ charMap.txt
 
 The commmand will use these chars to compose the password.
 
---min option is to set the start length of the password compose.
+--min option is to set the start length of the password to compose.
 
 --max option is to set the final lenght of the password to compose.
 

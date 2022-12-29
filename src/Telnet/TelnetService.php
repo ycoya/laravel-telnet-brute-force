@@ -152,7 +152,6 @@ class TelnetService
                     if ($response != "" && preg_match("/login/i", $response) != true) {
                         $isPasswordWrong = false;
                         $this->logQuestion("login-waitingForPasswordPromptAndSend possible login success for: $this->username:$this->password");
-                        $this->telnetCore->clearTmpBuffer();
                         return $this->credentialsFound = true;
                     }
                     $this->telnetCore->clearTmpBuffer();
