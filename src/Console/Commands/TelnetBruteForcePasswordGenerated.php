@@ -110,15 +110,22 @@ class TelnetBruteForcePasswordGenerated extends Command
         }
 
         if(!is_null($charRecorded)) {
-            $this->info("Found progress saved for password generation using: $charRecorded.");
+            $this->info("Password saved previously found using: $charRecorded.");
         }
 
         if($this->count != 1) {
-            $this->info("Found progress saved for password count using: $this->count.");
+            $this->info("Password count  saved previously found using: $this->count.");
+        }
+
+        $minLengthPassword = $charRecorded ? strlen($charRecorded): $minLengthPassword;
+
+        if($minLengthPassword > $maxLengthPassword) {
+            $this->error("The password length for $charRecorded ($minLengthPassword)  could not be greater than --max=$maxLengthPassword set in option.");
+            return Command::FAILURE;
         }
 
         BruteForceAttacker::startFrom($charRecorded);
-        for ($i = $charRecorded ? strlen($charRecorded): $minLengthPassword ; $i <= $maxLengthPassword ;$i++) {
+        for ($i = $minLengthPassword ; $i <= $maxLengthPassword ;$i++) {
             BruteForceAttacker::run([
                 'length' => $i,
                 'charMap' => $charMap ?: array_merge(range('A', 'Z'), range('a', 'z'), range('0', '9')),
