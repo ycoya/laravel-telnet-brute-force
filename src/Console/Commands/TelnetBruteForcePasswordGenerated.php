@@ -26,8 +26,7 @@ class TelnetBruteForcePasswordGenerated extends Command
      * float|null $full_line_timeout The maximum time to wait for before assuming the line is not carriage return terminated. null for infinity
      * boolean debug to output more information in laravel.log
      * boolean reset to reset the saved values. Restart from the first password again.
-     * string userDb path to users list to try to log in
-     * string passDb path to password list to try to log in.
+     * string tag If more than one instance is running, it use the tag as part of the filename to save the progress.
      *
      * @var string
      */
@@ -39,7 +38,8 @@ class TelnetBruteForcePasswordGenerated extends Command
     {--socket_timeout=10.0 : the timeout to wait for new data.}
     {--full_line_timeout=0.10 : The maximum time to wait for before assuming the line is not carriage return terminated.}
     {--debug : output more information in laravel.log. }
-    {--reset : reset the saved values. Restart from the first username and password again.}';
+    {--reset : reset the saved values. Restart from the first username and password again.}
+    {--tag=0 : If more than one instance is running, different files saved ex: 0_count.txt, 1_count.txt}';
 
     /**
      * The console command description.
@@ -68,8 +68,11 @@ class TelnetBruteForcePasswordGenerated extends Command
      */
     public function handle()
     {
-        $this->passGeneratedSavedPath = 'telnet_brute_force_gp/password.txt';
-        $this->countSavedPath = 'telnet_brute_force_gp/count.txt';
+        $tag  = $this->option('tag');
+        $host = $this->option('host');
+
+        $this->passGeneratedSavedPath = "telnet_brute_force_gp/$host/${tag}_password.txt";
+        $this->countSavedPath = "telnet_brute_force_gp/$host/{$tag}_count.txt";
 
         $username          = $this->option('user');
         $minLengthPassword = $this->option('min');

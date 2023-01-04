@@ -23,6 +23,7 @@ class TelnetBruteForceDictionary extends Command
      * boolean reset to reset the saved values. Restart from the first username and password again.
      * string userDb path to users list to try to log in
      * string passDb path to password list to try to log in.
+     * string tag If more than one instance is running, it use the tag as part of the filename to save the progress.
      *
      * @var string
      */
@@ -33,7 +34,8 @@ class TelnetBruteForceDictionary extends Command
      {--debug : output more information in laravel.log. }
      {--reset : reset the saved values. Restart from the first username and password again.}
      {--userDb= : Path to users list.}
-     {--passDb= : Path to the passwords list.}';
+     {--passDb= : Path to the passwords list.}
+     {--tag=0 : If more than one instance is running, different files saved ex: 0_password_cursors.txt, 1_password_cursors.txt}';
 
     /**
      * The console command description.
@@ -84,8 +86,10 @@ class TelnetBruteForceDictionary extends Command
      */
     public function handle()
     {
-        $this->userDbCursorSavedPath = 'telnet_brute_force_dict/users_cursor.txt';
-        $this->passDbCursorSavedPath = 'telnet_brute_force_dict/passwords_cursor.txt';
+        $tag  = $this->option('tag');
+        $host = $this->option('host');
+        $this->userDbCursorSavedPath = "telnet_brute_force_dict/$host/{$tag}_users_cursor.txt";
+        $this->passDbCursorSavedPath = "telnet_brute_force_dict/$host/{$tag}_passwords_cursor.txt";
 
         $options = Arr::only($this->options(), ['host', 'port', 'host', 'connect_timeout', 'socket_timeout', 'full_line_timeout']);
 

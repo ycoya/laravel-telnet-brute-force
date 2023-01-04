@@ -5,7 +5,7 @@ Recovering password from telnet service by using
 brute force.
 
 This was made to meet my own needs, it is not expected
-to be use in a real web application. This was more to learn
+to be used in a real web application. This was more to learn
 and practice to build packages. If someone needs it, well
 here it is.
 

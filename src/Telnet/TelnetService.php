@@ -107,7 +107,7 @@ class TelnetService
                         break;
                     }
                 }
-                if($count >= 3) {
+                if($count >= 5) {
                     $this->logError("waiting-login-prompt: probably banned." );
                     exit;
                 }
