@@ -107,9 +107,10 @@ class TelnetService
                         break;
                     }
                 }
-                if($count >= 5) {
-                    $this->logError("waiting-login-prompt: probably banned." );
-                    exit;
+                if($count >= 3) {
+                    $this->logError("waiting-login-prompt: probably banned.");
+                    $this->connected = false;
+                    break;
                 }
             } while ( $notPromptFound );
         }
@@ -134,14 +135,13 @@ class TelnetService
                     return $this->credentialsFound;
                 }
             }
-            do {
                 try {
                     $this->logInfo("login-sendingusername: sending: $this->username" );
                     $this->telnetCore->sendUsername($this->username);
                 } catch (\Exception $e) {
                     $this->logError("error login-sendingusername: sending $this->username " . $e->getMessage());
                     $this->connected = false;
-                    break;
+                    return $this->credentialsFound;
                 }
                 try {
                     $this->logInfo("login-waitingForPasswordPromptAndSend: sending password: $this->password" );
@@ -158,7 +158,6 @@ class TelnetService
                     $this->logError("error login-waitingForPasswordPromptAndSend: " . $e->getMessage());
                     $this->connected = false;
                     $this->isLoginPromptReceived = false;
-                    break;
                 }
 
                 if (!$usingPasswordGenerated) {
@@ -166,7 +165,6 @@ class TelnetService
                         return $this->credentialsFound;
                     }
                 }
-            } while ($isPasswordWrong && !$usingPasswordGenerated);
         }
 
         return $this->credentialsFound;
