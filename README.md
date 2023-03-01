@@ -41,7 +41,7 @@ php 8.0+
 ## `Brute Force With Dictionary`
 
 ```
-php artisan telnet:attack-dict --host=172.0.0.1 
+php artisan telnet:attack-dict --host=127.0.0.1 
 --userDb=utils/users.txt --passDb=utils/passwords.txt
 ```
 To receive help from command, just type

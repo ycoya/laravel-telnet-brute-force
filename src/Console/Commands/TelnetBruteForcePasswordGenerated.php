@@ -39,6 +39,7 @@ class TelnetBruteForcePasswordGenerated extends Command
     {--full_line_timeout=0.10 : The maximum time to wait for before assuming the line is not carriage return terminated.}
     {--debug : output more information in laravel.log. }
     {--reset : reset the saved values. Restart from the first username and password again.}
+    {--resetFound : reset only the username and password saved previously identified as correct by the program.. It does not reset the progress saved for password generated.}
     {--tag=0 : If more than one instance is running, different files saved ex: 0_count.txt, 1_count.txt}';
 
     /**
@@ -57,6 +58,12 @@ class TelnetBruteForcePasswordGenerated extends Command
     private $countSavedPath;
 
     /**
+     * To saved the record when password was found.
+     * string $passwordFoundPath
+     */
+    private $passwordFoundPath;
+
+    /**
      * @var TelnetService
      */
     protected $telnet;
@@ -73,6 +80,17 @@ class TelnetBruteForcePasswordGenerated extends Command
 
         $this->passGeneratedSavedPath = "telnet_brute_force_gp/$host/${tag}_password.txt";
         $this->countSavedPath = "telnet_brute_force_gp/$host/{$tag}_count.txt";
+        $this->passwordFoundPath     = "telnet_brute_force_gp/$host/{$tag}_password_found.txt";
+
+        if($this->option('resetFound')) {
+            Storage::delete($this->passwordFoundPath);
+        }
+
+        $passwordFound = Storage::get($this->passwordFoundPath);
+        if(!is_null($passwordFound)) {
+            $this->info("credentials found: $passwordFound");
+            return Command::SUCCESS;
+        }
 
         $username          = $this->option('user');
         $minLengthPassword = $this->option('min');
@@ -113,11 +131,11 @@ class TelnetBruteForcePasswordGenerated extends Command
         }
 
         if(!is_null($charRecorded)) {
-            $this->info("Password saved previously found using: $charRecorded.");
+            $this->info("Password generated saved previously found using: $charRecorded.");
         }
 
         if($this->count != 1) {
-            $this->info("Password count  saved previously found using: $this->count.");
+            $this->info("Password count saved previously found using: $this->count.");
         }
 
         $minLengthPassword = $charRecorded ? strlen($charRecorded): $minLengthPassword;
@@ -149,8 +167,9 @@ class TelnetBruteForcePasswordGenerated extends Command
         Storage::put($this->passGeneratedSavedPath, $password);
         if ($this->telnet->bruteForceWithPasswordGenerated($password, $count)) {
             $this->info( "Found {$password},  {$count} times");
+            $username = $this->telnet->getUsername();
+            Storage::put($this->passwordFoundPath, "$username:$password");
             return $this->found = true;
         }
-
     }
 }
