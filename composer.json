@@ -2,7 +2,7 @@
     "name": "ycoya/laravel-telnet-brute-force",
     "description": "A package to brute force a telnet connection",
     "keywords": ["brute force attack", "php", "laravel", "telnet"],
-    "type": "project",
+    "type": "library",
     "require": {
         "php": "^8.0",
         "borisuu/laravel-telnet": "dev-master",
