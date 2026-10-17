@@ -141,7 +141,7 @@ The commmand will use these chars to compose the password.
 
 --min option is to set the start length of the password to compose.
 
---max option is to set the final lenght of the password to compose.
+--max option is to set the final length of the password to compose.
 
 From the above example we will get passwords from one length,
 when all chars are passed, then it will move to generate
