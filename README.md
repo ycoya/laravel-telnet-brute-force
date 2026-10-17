@@ -148,7 +148,7 @@ when all chars are passed, then it will move to generate
  password of two lengths, using the charMap combining.
 Example:
  aa, ab, ac...etc, when this finishes then it will
- use a password of lenght 3, and so on until the max value
+ use a password of length 3, and so on until the max value
 For this example it is five. length 5.
 
 If we only want to use specific length, let's say
